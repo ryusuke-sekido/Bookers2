@@ -1,0 +1,14 @@
+<h1>ここは編集画面です。</h1>
+<li>Editing Book</li>
+<%= flash[:alert] %>
+<%= form_with model: @book do |f| %>
+
+<h4>タイトル</h4>
+<%=f.text_field :title %>
+<h4>本文</h4>
+<%=f.text_area :body %>
+<%=f.submit'Update Book' %>
+<% end %>
+
+<%= link_to "Show", book_path %>
+<%= link_to "Back", books_path %>

@@ -1,0 +1,60 @@
+<script src="https://kit.fontawesome.com/dafc2bfea6.js" crossorigin="anonymous"></script><div class="social">
+<h1>ここはユーザーの詳細画面です。</h1>
+<header>
+ <div class="social">
+ <% if user_signed_in? %>
+  <h1><i class="fas fa-home"></i>Home</h1>
+  <h1><i class="fas fa-users"></i>Users</h1>
+  <h1><i class="fas fa-book-open"></i>Books</h1>
+  <h1><i class="fas fa-sign-out-alt"></i>Log out</h1>
+<% end %>
+ </div>
+</header>
+
+<div>
+ 
+  <h3><%= @user.name %></h3>
+  <p>画像</p>
+  <%= image_tag @user.get_profile_image(100,100) %>
+</div>
+
+<% if @user==current_user.id %>
+ <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+<% end %>
+
+<div class="container">
+ <div class="row">
+  <div class="col-md-3" style="background-color: orange;">
+   <h2>サイドバー</h2>
+   <h1><i class="fas fa-user-cog"></i></h1>
+   <li>New book</li>
+   <h1>新規投稿</h1>
+   <h2>名前</h2>
+    <%= @user.name %>
+   <h2>自己紹介文</h2>
+    <%= @user.introduction %>
+    <%= link_to "ユーザー編集", edit_user_path(@user.id) %>
+    <%= form_with model: Book.new do |f| %>
+  <h4>本のタイトル</h4>
+   <%= f.text_field :title %>
+  <h4>感想</h4>
+   <%= f.text_area :body %>
+   <%= f.submit 'Create Book' %>
+<% end %>
+  </div>
+  
+  <div class="col-md-8 offset-md-1">
+   <h1>投稿一覧</h1>
+   <% @books.each do |book| %>
+   <table class="table table-striped">
+   <td>
+    <%= link_to user_path(book.user) do %>
+    <%= image_tag book.user.get_profile_image(100,100) %>
+    <% end %>
+    <span><%= link_to book.title, book_path(book.id)  %></span>
+    <span><%= book.body %></span>
+   </td>
+   <% end %>
+  </div>
+ </div>
+</div>
